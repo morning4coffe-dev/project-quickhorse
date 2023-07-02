@@ -191,12 +191,27 @@ const initData = loadData();
 displayData(initData);
 console.log(initData);
 
+
 //
 
 import axios from 'axios';
 
+console.log(import.meta.env.PROXY_URL);
+
+// Define your Client ID and Client Secret
+const clientId = ''; // Replace with your actual Client ID
+const clientSecret = ''; // Replace with your actual Client Secret
+
+// Define the endpoint and query parameters to obtain the access token
+const authEndpoint = 'https://id.twitch.tv/oauth2/token';
+const authParams = {
+  client_id: clientId,
+  client_secret: clientSecret,
+  grant_type: 'client_credentials',
+};
+
 // Define your API key and base URL
-const apiKey = '';
+const proxyURL = '';
 const baseURL = 'https://api.igdb.com/v4';
 
 // Define the endpoint and query parameters
@@ -206,19 +221,44 @@ const queryParams = {
   limit: 10,
 };
 
-// Create an Axios instance with default headers
-const api = axios.create({
-  baseURL,
-  headers: {
-    'Client-ID': apiKey,
-    Authorization: `Bearer ${apiKey}`,
-  },
-});
+// Function to obtain the access token
+async function getAccessToken() {
+  try {
+    // Send the POST request to obtain the access token
+    const response = await axios.post(authEndpoint, null, {
+      params: authParams,
+    });
+
+    console.log(response);
+
+    // Extract the access token from the response
+    const { access_token } = response.data;
+
+    // Return the access token
+    return access_token;
+  } catch (error) {
+    console.error('Error occurred while obtaining access token:', error);
+    throw error;
+  }
+}
 
 // Function to request data from the IGDB API
 async function requestDataFromIGDB() {
   try {
-    // Send the GET request
+    // Obtain the access token
+    const accessToken = await getAccessToken();
+
+    // Create an Axios instance with the proxy URL and the access token as the API key
+    const api = axios.create({
+      baseURL: proxyURL + baseURL, // Prepend the base URL with the proxy URL
+      headers: {
+        'Client-ID': clientId,
+        Authorization: `Bearer ${accessToken}`,
+        'X-Requested-With': 'XMLHttpRequest', // Required header for the cors-anywhere proxy
+      },
+    });
+
+    // Send the GET request using the updated Axios instance
     const response = await api.get(endpoint, {
       params: queryParams,
     });
