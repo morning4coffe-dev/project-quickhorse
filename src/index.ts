@@ -5,20 +5,20 @@ interface MyData {
 }
 
 function loadData(): MyData[] {
-  const data = localStorage.getItem("myData");
+  const data = localStorage.getItem('myData');
   if (data) {
     try {
       const parsedData = JSON.parse(data);
       return Array.isArray(parsedData) ? parsedData : [parsedData];
     } catch (error) {
-      console.error("Error parsing data:", error);
+      console.error('Error parsing data:', error);
     }
   }
   return [];
 }
 
 function saveData(data: MyData) {
-  const existingData = localStorage.getItem("myData");
+  const existingData = localStorage.getItem('myData');
   let newData: MyData[] = [];
 
   if (existingData) {
@@ -28,32 +28,32 @@ function saveData(data: MyData) {
         ? [...parsedData, data]
         : [parsedData, data];
     } catch (error) {
-      console.error("Error parsing existing data:", error);
+      console.error('Error parsing existing data:', error);
     }
   } else {
     newData = [data];
   }
 
-  localStorage.setItem("myData", JSON.stringify(newData));
+  localStorage.setItem('myData', JSON.stringify(newData));
 }
 
 function removeItem(id: string) {
-  const existingData = localStorage.getItem("myData");
+  const existingData = localStorage.getItem('myData');
   if (existingData) {
     try {
       const parsedData = JSON.parse(existingData) as MyData[];
       const filteredData = parsedData.filter((item) => item.id !== id);
-      localStorage.setItem("myData", JSON.stringify(filteredData));
+      localStorage.setItem('myData', JSON.stringify(filteredData));
     } catch (error) {
-      console.error("Error parsing existing data:", error);
+      console.error('Error parsing existing data:', error);
     }
   }
 }
 
 function displayData(data: MyData[]) {
-  const container = document.getElementById("dataContainer");
+  const container = document.getElementById('dataContainer');
   if (container) {
-    container.innerHTML = "";
+    container.innerHTML = '';
 
     data.forEach((item) => {
       const content = `
@@ -77,19 +77,19 @@ function displayData(data: MyData[]) {
           </div>
         </div>`;
 
-      container.insertAdjacentHTML("beforeend", content);
+      container.insertAdjacentHTML('beforeend', content);
 
       const removeForm = document.querySelector(
-        `#removeForm-${item.id}`
+        `#removeForm-${item.id}`,
       ) as HTMLFormElement;
       if (removeForm) {
-        removeForm.addEventListener("submit", (event) => {
+        removeForm.addEventListener('submit', (event) => {
           event.preventDefault();
           const itemIdInput = removeForm.querySelector(
-            "[name=itemId]"
+            '[name=itemId]',
           ) as HTMLInputElement;
           const itemId = itemIdInput.value;
-          if (confirm("Are you sure you want to delete this item?")) {
+          if (confirm('Are you sure you want to delete this item?')) {
             removeItem(itemId);
             const newData = loadData();
             displayData(newData);
@@ -103,7 +103,7 @@ function displayData(data: MyData[]) {
 //DARK MODE
 
 const darkModeSwitch =
-  document.querySelector<HTMLInputElement>("#darkModeSwitch")!;
+  document.querySelector<HTMLInputElement>('#darkModeSwitch')!;
 const rootElement = document.documentElement;
 
 function toggleDarkMode() {
@@ -115,12 +115,12 @@ function toggleDarkMode() {
 }
 
 function enableDarkMode() {
-  rootElement.setAttribute("data-bs-theme", "dark");
+  rootElement.setAttribute('data-bs-theme', 'dark');
   setDarkModeCookie(true);
 }
 
 function disableDarkMode() {
-  rootElement.setAttribute("data-bs-theme", "light");
+  rootElement.setAttribute('data-bs-theme', 'light');
   setDarkModeCookie(false);
 }
 
@@ -129,29 +129,29 @@ function setDarkModeCookie(isDarkMode: boolean) {
 }
 
 function checkDarkModePreference() {
-  const cookies = document.cookie.split(";").map((cookie) => cookie.trim());
+  const cookies = document.cookie.split(';').map((cookie) => cookie.trim());
   console.log(cookies);
   const darkModeCookie = cookies.find((cookie) =>
-    cookie.startsWith("darkMode=")
+    cookie.startsWith('darkMode='),
   );
-  if (darkModeCookie && darkModeCookie.split("=")[1] === "true") {
+  if (darkModeCookie && darkModeCookie.split('=')[1] === 'true') {
     enableDarkMode();
     darkModeSwitch.checked = true;
   }
 }
 
-darkModeSwitch.addEventListener("change", toggleDarkMode);
-document.addEventListener("DOMContentLoaded", checkDarkModePreference);
+darkModeSwitch.addEventListener('change', toggleDarkMode);
+document.addEventListener('DOMContentLoaded', checkDarkModePreference);
 
 //
 
 const sendMessageBtn =
-  document.querySelector<HTMLButtonElement>("#send-message-btn");
+  document.querySelector<HTMLButtonElement>('#send-message-btn');
 
 if (sendMessageBtn) {
-  sendMessageBtn.addEventListener("click", function handleClick() {
-    const nameInput = (document.querySelector<HTMLInputElement>("#nameInput")
-      ?.value ?? "") as string;
+  sendMessageBtn.addEventListener('click', function handleClick() {
+    const nameInput = (document.querySelector<HTMLInputElement>('#nameInput')
+      ?.value ?? '') as string;
 
     const md: MyData = {
       id: generateUniqueId(),
@@ -161,14 +161,14 @@ if (sendMessageBtn) {
 
     saveData(md);
 
-    const modal = document.getElementById("exampleModal");
+    const modal = document.getElementById('exampleModal');
 
     if (modal) {
-      modal.classList.remove("show");
+      modal.classList.remove('show');
 
-      document.body.classList.remove("modal-open");
+      document.body.classList.remove('modal-open');
 
-      const modalBackdrop = document.querySelector(".modal-backdrop");
+      const modalBackdrop = document.querySelector('.modal-backdrop');
       if (modalBackdrop) {
         modalBackdrop.parentNode?.removeChild(modalBackdrop);
       }
@@ -191,16 +191,143 @@ const initData = loadData();
 displayData(initData);
 console.log(initData);
 
+// Add game
+
+import { Modal } from 'bootstrap';
+
+const searchInputModal = document.getElementById('searchInputModal') as HTMLInputElement | null;
+const searchResultsModal = document.getElementById('searchResultsModal');
+
+var modal = document.getElementById('addGameModal')!;
+
+modal.addEventListener('shown.bs.modal', function() {
+  searchInputModal!.focus();
+});
+
+
+const resultsModal = [
+  { name: 'Result 1', url: 'https://example.com/result1' },
+  { name: 'Result 2', url: 'https://example.com/result2' },
+  { name: 'Result 3', url: 'https://example.com/result3' },
+  // Add more search results here
+];
+
+if (searchInputModal && searchResultsModal) {
+  searchInputModal.addEventListener('input', () => {
+    const searchTerm = searchInputModal.value.toLowerCase();
+    const filteredResults = resultsModal.filter(result =>
+      result.name.toLowerCase().includes(searchTerm)
+    );
+
+    displayResultsModal(filteredResults);
+  });
+
+  let activeIndex = -1;
+
+  searchInputModal.addEventListener('keydown', function(e) {
+    if (e.key === 'ArrowUp') { // Up arrow key
+      e.preventDefault();
+      const results = document.querySelectorAll('.autocomplete-results .list-group-item');
+      if (activeIndex > 0 && results.length > 0) {
+        activeIndex--;
+        updateActiveItem(results);
+      }
+    } else if (e.key === 'ArrowDown') { // Down arrow key
+      e.preventDefault();
+      const results = document.querySelectorAll('.autocomplete-results .list-group-item');
+      if (activeIndex < results.length - 1) {
+        activeIndex++;
+        updateActiveItem(results);
+      }
+    } else if (e.key === 'Enter') { // Enter key
+      const results = document.querySelectorAll('.autocomplete-results .list-group-item');
+      if (activeIndex >= 0 && activeIndex < results.length) {
+        e.preventDefault();
+        selectResult(results[activeIndex]);
+      }
+    }
+  });
+
+  function displayResultsModal(filteredResults: { name: string, url: string }[]) {
+    if (!searchResultsModal) return;
+
+    searchResultsModal.innerHTML = '';
+
+    if (filteredResults.length === 0) {
+      searchResultsModal.style.display = 'none';
+      return;
+    }
+
+    searchResultsModal.style.display = 'block';
+
+    filteredResults.forEach((result, index) => {
+      const resultItem = document.createElement('div');
+      resultItem.classList.add('autocomplete-item', 'list-group-item');
+      resultItem.textContent = result.name;
+
+      resultItem.addEventListener('click', () => {
+        selectResult(resultItem);
+      });
+
+      if (searchResultsModal) {
+        searchResultsModal.appendChild(resultItem);
+      }
+
+      if (index === activeIndex) {
+        resultItem.classList.add('active');
+      }
+    });
+  }
+
+  // Hide the results modal when clicking outside of it
+  window.addEventListener('click', event => {
+    if (searchResultsModal && !searchResultsModal.contains(event.target as Node) && event.target !== searchInputModal) {
+      searchResultsModal.style.display = 'none';
+    }
+  });
+
+  function updateActiveItem(results: NodeListOf<Element>) {
+    results.forEach(function(result) {
+      result.classList.remove('active');
+    });
+
+    results[activeIndex].classList.add('active');
+  }
+
+  function selectResult(result: Element) {
+    const selectedResult = result.textContent;
+    if (searchInputModal && searchResultsModal) {
+      // Do something with the selected result
+      console.log(`Selected: ${selectedResult}`);
+
+      //TODO send info to the second modal
+
+      (document.getElementById('nameInput') as HTMLInputElement)!.value = selectedResult ?? "";
+      //searchInputModal.value = selectedResult ?? "";
+      searchResultsModal.style.display = 'none';
+
+      
+      const modal = new Modal(document.getElementById('addGameModal')!);
+      modal.hide();
+      
+      document.getElementById('addGameModal')!.style.display = 'none';
+      
+      const newModal = new Modal(document.getElementById('exampleModal')!);
+      newModal.show();
+    }
+  }
+}
+
 
 //
 
 import axios from 'axios';
 
-console.log(import.meta.env.PROXY_URL);
+console.log(import.meta.env.SNOWPACK_PUBLIC_PROXY_URL);
 
 // Define your Client ID and Client Secret
-const clientId = ''; // Replace with your actual Client ID
-const clientSecret = ''; // Replace with your actual Client Secret
+const clientId = import.meta.env.SNOWPACK_PUBLIC_CLIENT_ID; // Replace with your actual Client ID
+const clientSecret = import.meta.env.SNOWPACK_PUBLIC_CLIENT_SECRET; // Replace with your actual Client Secret
 
 // Define the endpoint and query parameters to obtain the access token
 const authEndpoint = 'https://id.twitch.tv/oauth2/token';
@@ -211,7 +338,7 @@ const authParams = {
 };
 
 // Define your API key and base URL
-const proxyURL = '';
+const proxyURL = import.meta.env.SNOWPACK_PUBLIC_PROXY_URL;
 const baseURL = 'https://api.igdb.com/v4';
 
 // Define the endpoint and query parameters

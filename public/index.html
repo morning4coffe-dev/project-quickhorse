@@ -4,11 +4,13 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>My Games</title>
+        <link href="index.css" rel="stylesheet">
         <link
             href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
             rel="stylesheet"
             integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM"
             crossorigin="anonymous">
+
     </head>
     <body>
         <div class="container" style="margin-bottom: 4rem;">
@@ -20,7 +22,7 @@
             <div class="row">
                 <div class="col-6">
                     <button type="button" class="btn btn-primary"
-                        data-bs-toggle="modal" data-bs-target="#exampleModal">
+                        data-bs-toggle="modal" data-bs-target="#addGameModal">
                         Add Game
                     </button>
                 </div>
@@ -43,6 +45,22 @@
 
         <!--TODO First choose a game and then continue to the next modal-->
 
+        <div class="modal fade" id="addGameModal" tabindex="-1"
+            aria-labelledby="addGameModalLabel"
+            aria-hidden="true" data-bs-backdrop="static">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="form-group">
+                        <input id="searchInputModal" type="text"
+                            class="autocomplete-box form-control"
+                            placeholder="Search...">
+                        <div id="searchResultsModal"
+                            class="autocomplete-results list-group"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <!--TODO Check for data validity in Add Form-->
         <div class="modal fade" id="exampleModal" tabindex="-1"
             aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -50,7 +68,7 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <h1 class="modal-title fs-5" id="exampleModalLabel">New
-                            message</h1>
+                            game</h1>
                         <button type="button" class="btn-close"
                             data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
