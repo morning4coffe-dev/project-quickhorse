@@ -205,10 +205,10 @@ modal.addEventListener('shown.bs.modal', function() {
 });
 
 
-const resultsModal = [
-  { name: 'Result 1', url: 'https://example.com/result1' },
-  { name: 'Result 2', url: 'https://example.com/result2' },
-  { name: 'Result 3', url: 'https://example.com/result3' },
+var resultsModal = [
+  { name: 'Result 1', id: '1' },
+  { name: 'Result 2', id: '3' },
+  { name: 'Result 3', id: '2' },
   // Add more search results here
 ];
 
@@ -248,7 +248,7 @@ if (searchInputModal && searchResultsModal) {
     }
   });
 
-  function displayResultsModal(filteredResults: { name: string, url: string }[]) {
+  function displayResultsModal(filteredResults: { name: string, id: string }[]) {
     if (!searchResultsModal) return;
 
     searchResultsModal.innerHTML = '';
@@ -345,7 +345,7 @@ const baseURL = 'https://api.igdb.com/v4';
 const endpoint = '/games';
 const queryParams = {
   fields: 'name,summary',
-  limit: 10,
+  limit: 500,
 };
 
 // Function to obtain the access token
@@ -392,6 +392,8 @@ async function requestDataFromIGDB() {
 
     // Extract the data from the response
     const data = response.data;
+
+    resultsModal = data;
 
     // Process the data as needed
     console.log('Received data:', data);

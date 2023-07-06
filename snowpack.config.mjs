@@ -14,9 +14,6 @@ export default {
       '@snowpack/plugin-postcss'
     ],
   ],
-  env: {
-
-  },
   routes: [
     /* Enable an SPA Fallback in development: */
     // {"match": "routes", "src": ".*", "dest": "/index.html"},

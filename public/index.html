@@ -46,20 +46,22 @@
         <!--TODO First choose a game and then continue to the next modal-->
 
         <div class="modal fade" id="addGameModal" tabindex="-1"
-            aria-labelledby="addGameModalLabel"
-            aria-hidden="true" data-bs-backdrop="static">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
-                    <div class="form-group">
-                        <input id="searchInputModal" type="text"
-                            class="autocomplete-box form-control"
-                            placeholder="Search...">
-                        <div id="searchResultsModal"
-                            class="autocomplete-results list-group"></div>
-                    </div>
+        aria-labelledby="addGameModalLabel"
+        aria-hidden="true" data-bs-backdrop="static">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="form-group">
+                    <input id="searchInputModal" type="text"
+                        class="autocomplete-box form-control"
+                        placeholder="Search...">
+                    <div id="searchResultsModal"
+                        class="autocomplete-results list-group"
+                        style="overflow-y: scroll; max-height: 200px;"></div>
                 </div>
             </div>
         </div>
+    </div>
+    
 
         <!--TODO Check for data validity in Add Form-->
         <div class="modal fade" id="exampleModal" tabindex="-1"
